@@ -14,12 +14,12 @@ def get_markers():
         cursor.close()
         conn.close()
 
-        # Convertir campo tags (string) a lista
         for marker in result:
             if 'tags' in marker and marker['tags']:
-                marker['tags'] = [tag.strip() for tag in marker['tags'].split(',')]
+                marker['tags'] = marker['tags'].split(',')
             else:
                 marker['tags'] = []
+
 
         return jsonify(result)
     except Exception as e:
