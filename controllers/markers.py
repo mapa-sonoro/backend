@@ -6,13 +6,17 @@ markers_bp = Blueprint('markers', __name__)
 
 @markers_bp.route('/markers', methods=['GET'])
 def get_markers():
-    conn = mysql.connector.connect(**DB_CONFIG)
-    cursor = conn.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM markers")
-    result = cursor.fetchall()
-    cursor.close()
-    conn.close()
-    return jsonify(result)
+    try:
+        conn = mysql.connector.connect(**DB_CONFIG)
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("SELECT * FROM markers")
+        result = cursor.fetchall()
+        cursor.close()
+        conn.close()
+        return jsonify(result)
+    except Exception as e:
+        print(f"Error en /markers: {e}")
+        return jsonify({"error": str(e)}), 500
 
 @markers_bp.route('/markers', methods=['POST'])
 def add_marker():
