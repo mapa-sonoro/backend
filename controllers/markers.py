@@ -29,8 +29,27 @@ def get_markers():
 
 @markers_bp.route('/markers', methods=['POST'])
 def add_marker():
-    data = request.get_json()
     try:
+        data = request.get_json()
+
+        # Validación básica
+        required_fields = ['title', 'lat', 'lng', 'popupContent', 'date']
+        for field in required_fields:
+            if field not in data:
+                return jsonify({'error': f'Campo requerido faltante: {field}'}), 400
+
+        # Convierte lista de tags a string si es necesario
+        tags = data.get('tags', [])
+        if isinstance(tags, list):
+            tags = ','.join(tags)
+        else:
+            tags = tags or ''  # en caso de None
+
+        # Campos opcionales
+        audioUrl = data.get('audioUrl') or ''
+        imageUrl = data.get('imageUrl') or ''
+        author = data.get('author') or ''
+
         conn = mysql.connector.connect(**DB_CONFIG)
         cursor = conn.cursor()
         cursor.execute("""
@@ -38,19 +57,24 @@ def add_marker():
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
         """, (
             data['title'], data['lat'], data['lng'], data['popupContent'],
-            data['audioUrl'], data['imageUrl'],
-            ','.join(data['tags']),
-            data.get('author', ''),  # Aquí autor opcional, '' si no viene
-            data['date']
+            audioUrl, imageUrl, tags, author, data['date']
         ))
         conn.commit()
+
+        # Recuperar el ID insertado
+        new_id = cursor.lastrowid
         cursor.close()
         conn.close()
-        return jsonify({'success': True, 'message': 'Marcador guardado correctamente'})
-    except Exception as e:
-        print(f"Error al agregar marcador: {e}")
-        return jsonify({'error': str(e)}), 500
 
+        return jsonify({
+            'success': True,
+            'message': 'Marcador guardado correctamente',
+            'id': new_id
+        }), 201
+
+    except Exception as e:
+        print(f"Error en POST /markers: {e}")
+        return jsonify({'error': str(e)}), 500
 
 @markers_bp.route('/markers/<int:id>', methods=['PUT'])
 def update_marker(id):
@@ -73,8 +97,8 @@ def update_marker(id):
         """, (
             data['title'], data['lat'], data['lng'], data['popupContent'],
             data['audioUrl'], data['imageUrl'],
-            ','.join(data['tags']),
-            data.get('author', ''),
+            ','.join(data['tags']),  # Guardamos la lista como string
+            data.get('author', ''),  # Por si falta author en el frontend
             data['date'], id
         ))
         conn.commit()
@@ -84,7 +108,6 @@ def update_marker(id):
     except Exception as e:
         print(f"Error al actualizar marcador: {e}")
         return jsonify({'error': str(e)}), 500
-
 
 @markers_bp.route('/markers/<int:id>', methods=['DELETE'])
 def delete_marker(id):
