@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, send_from_directory
 from flask_cors import CORS
 from controllers.markers import markers_bp
 from auth_simple import simple_auth_bp
