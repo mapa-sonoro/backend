@@ -15,6 +15,10 @@ app.register_blueprint(simple_auth_bp)
 def serve_login():
     return send_from_directory('static', 'login.html')
 
+@app.route('/login.html')
+def serve_login_file():
+    return send_from_directory('static', 'login.html')
+
 @app.route('/admin_panel.html')
 def serve_admin_panel():
     return send_from_directory('static', 'admin_panel.html')

@@ -4,45 +4,35 @@
   <title>Admin - Añadir/Modificar Marcador</title>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <link rel="stylesheet" href="css/styles.css">
-      <link rel="preconnect" href="https://fonts.googleapis.com">
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-      <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-      <link rel="stylesheet" href="css/styles.css">
-
+  <link rel="stylesheet" href="css/styles.css"> <!-- Asegúrate de que este archivo exista -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body class="admin-panel">
   <h2>Añadir o modificar un marcador</h2>
   <form id="markerForm">
     <input type="hidden" id="markerId" name="markerId" />
     <label for="title">Título:</label>
-    <input type="text" id="title" name="title" required>
-    <br>
+    <input type="text" id="title" name="title" required><br>
     <label for="lat">Latitud:</label>
-    <input type="text" id="lat" name="lat" required>
-    <br>
+    <input type="text" id="lat" name="lat" required><br>
     <label for="lng">Longitud:</label>
-    <input type="text" id="lng" name="lng" required>
-    <br>
+    <input type="text" id="lng" name="lng" required><br>
     <label for="popupContent">Contenido del Pop-up:</label>
-    <textarea id="popupContent" name="popupContent" required></textarea>
-    <br>
+    <textarea id="popupContent" name="popupContent" required></textarea><br>
     <label for="audioUrl">URL del audio:</label>
-    <input type="text" id="audioUrl" name="audioUrl">
-    <br>
+    <input type="text" id="audioUrl" name="audioUrl"><br>
     <label for="imageUrl">URL de la imagen:</label>
-    <input type="text" id="imageUrl" name="imageUrl">
-    <br>
+    <input type="text" id="imageUrl" name="imageUrl"><br>
     <label for="tags">Tags (separados por comas):</label>
-    <input type="text" id="tags" name="tags">
-    <br>
+    <input type="text" id="tags" name="tags"><br>
     <label for="date">Fecha:</label>
-    <input type="date" id="date" name="date" required>
-    <br><div class="form-buttons">
-    <button type="submit">Guardar Marcador</button>
-    <br>
-    <button type="button" id="cancelEdit">Cancelar</button>
+    <input type="date" id="date" name="date" required><br>
+    <div class="form-buttons">
+      <button type="submit">Guardar Marcador</button><br>
+      <button type="button" id="cancelEdit">Cancelar</button>
     </div>
   </form>
 
@@ -50,186 +40,140 @@
   <div id="markerList"></div>
 
   <script>
-const BASE_URL = 'https://soundmap-r3ie.onrender.com/markers';
+    const BASE_URL = 'https://soundmap-r3ie.onrender.com/markers';
 
-document.getElementById('markerForm').addEventListener('submit', function(e) {
-  e.preventDefault();
+    document.getElementById('markerForm').addEventListener('submit', function(e) {
+      e.preventDefault();
 
-  const id = document.getElementById('markerId').value;
-  const lat = document.getElementById('lat').value;
-  const lng = document.getElementById('lng').value;
-  const title = document.getElementById('title').value;
-  const popupContent = document.getElementById('popupContent').value;
-  const audioUrl = document.getElementById('audioUrl').value;
-  const imageUrl = document.getElementById('imageUrl').value;
-  const tags = document.getElementById('tags').value.split(',').map(tag => tag.trim());
-  const date = document.getElementById('date').value;
-  function formatDate(isoString) {
-    const date = new Date(isoString);
-    return date.toISOString().split('T')[0];
-}
+      const id = document.getElementById('markerId').value;
+      const lat = document.getElementById('lat').value;
+      const lng = document.getElementById('lng').value;
+      const title = document.getElementById('title').value;
+      const popupContent = document.getElementById('popupContent').value;
+      const audioUrl = document.getElementById('audioUrl').value;
+      const imageUrl = document.getElementById('imageUrl').value;
+      const tags = document.getElementById('tags').value.split(',').map(tag => tag.trim());
+      const date = document.getElementById('date').value;
 
-  const marker = {
-    title: title,
-    lat: parseFloat(lat),
-    lng: parseFloat(lng),
-    popupContent: popupContent,
-    audioUrl: audioUrl,
-    imageUrl: imageUrl,
-    tags: tags,
-    date: date
-  };
+      const marker = {
+        title,
+        lat: parseFloat(lat),
+        lng: parseFloat(lng),
+        popupContent,
+        audioUrl,
+        imageUrl,
+        tags,
+        date
+      };
 
-  const method = id ? 'PUT' : 'POST';
-  const endpoint = id ? `${BASE_URL}/${id}` : BASE_URL;
+      const method = id ? 'PUT' : 'POST';
+      const endpoint = id ? `${BASE_URL}/${id}` : BASE_URL;
 
-  fetch(endpoint, {
-    method: method,
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(marker)
-  })
-    .then(async response => {
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(errorText);
-      }
-      return response.json();
-    })
-    .then(data => {
-      fetchMarkers();
+      fetch(endpoint, {
+        method,
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(marker)
+      })
+      .then(async response => {
+        if (!response.ok) throw new Error(await response.text());
+        return response.json();
+      })
+      .then(() => {
+        fetchMarkers();
+        document.getElementById('markerForm').reset();
+        document.getElementById('markerId').value = '';
+      })
+      .catch(error => console.log('Error al guardar el marcador:', error));
+    });
+
+    document.getElementById('cancelEdit').addEventListener('click', () => {
       document.getElementById('markerForm').reset();
       document.getElementById('markerId').value = '';
-    })
-    .catch(error => console.log('Error al guardar el marcador: ', error));
-});
+    });
 
-document.getElementById('cancelEdit').addEventListener('click', function() {
-  document.getElementById('markerForm').reset();
-  document.getElementById('markerId').value = '';
-});
+    function fetchMarkers() {
+      fetch(BASE_URL)
+        .then(async response => {
+          if (!response.ok) throw new Error(await response.text());
+          return response.json();
+        })
+        .then(data => {
+          const markerList = document.getElementById('markerList');
+          markerList.innerHTML = '';
 
-function fetchMarkers() {
-  fetch("https://soundmap-r3ie.onrender.com/markers")
-    .then(async response => {
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(errorText);
-      }
-      return response.json();
-    })
-    .then(data => {
-      const markerList = document.getElementById('markerList');
-      markerList.innerHTML = '';
+          const table = document.createElement('table');
+          table.classList.add('marker-table');
+          table.innerHTML = `
+            <thead>
+              <tr>
+                <th>Id</th><th>Título</th><th>Contenido</th><th>Lat</th><th>Lng</th>
+                <th>Tags</th><th>Fecha</th><th>Audio</th><th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          `;
 
-      const table = document.createElement('table');
-      table.classList.add('marker-table');
+          const tbody = table.querySelector('tbody');
 
-      // Cabecera de la tabla
-      table.innerHTML = `
-        <thead>
-          <tr>
-            <th>Id</th>
-            <th>Título</th>
-            <th>Contenido</th>
-            <th>Lat</th>
-            <th>Lng</th>
-            <th>Tags</th>
-            <th>Fecha</th>
-            <th>Audio</th>
-            <th>Acciones</th>
-          </tr>
-        </thead>
-        <tbody></tbody>
-      `;
+          data.forEach(marker => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td>${marker.id}</td>
+              <td><b>${marker.title}</b></td>
+              <td>${marker.popupContent}</td>
+              <td>${marker.lat}</td>
+              <td>${marker.lng}</td>
+              <td>${Array.isArray(marker.tags) ? marker.tags.join(', ') : 'Sin tags'}</td>
+              <td>${marker.date}</td>
+              <td>
+                <audio controls>
+                  <source src="${marker.audioUrl}" type="audio/mpeg">
+                  Tu navegador no soporta audio.
+                </audio>
+              </td>
+              <td class="admin-buttons">
+                <button onclick="editMarker(${marker.id})"><i class="fa-regular fa-pen-to-square"></i></button>
+                <button onclick="deleteMarker(${marker.id})"><i class="fa-solid fa-trash"></i></button>
+              </td>
+            `;
+            tbody.appendChild(row);
+          });
 
-      const tbody = table.querySelector('tbody');
-
-      data.forEach(marker => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td>${marker.id}</td>
-          <td><b>${marker.title}</b></td>
-          <td>${(marker.popupContent)}</td>
-          <td>${marker.lat}</td>
-          <td>${marker.lng}</td>
-          <td>${Array.isArray(marker.tags) ? marker.tags.join(', ') : marker.tags || 'Sin tags'}</td>
-          <td>${marker.date}</td>
-          <td><audio controls >
-          <source src="${marker.audioUrl}" type="audio/mpeg">
-          Tu navegador no soporta audio.
-        </audio></td>
-          <td class = "admin-buttons">
-            <button onclick="editMarker(${marker.id})"><i class="fa-regular fa-pen-to-square"></i></button>
-            <button onclick="deleteMarker(${marker.id})"><i class="fa-solid fa-trash"></i></button>
-          </td>
-        `;
-        tbody.appendChild(row);
-      });
-
-      markerList.appendChild(table); // ✅ Esto cierra bien el bloque .then
-    })
-    .catch(error => console.log('Error al cargar los marcadores: ', error)); // ✅ Esto va fuera del .then
-}
-
-// function playAudio(url) {
-//     const audio = new Audio(url);
-//     audio.play();
-// }
-
-// function pauseAudio(url) {
-//     const audio2 = audio;
-//     audio2.stop();
-// }
-
-
-window.editMarker = function(id) {
-  fetch(`${BASE_URL}/${id}`)
-    .then(async response => {
-      if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(errorText);
-      }
-      return response.json();
-    })
-    .then(marker => {
-      document.getElementById('title').value = marker.title;
-      document.getElementById('markerId').value = marker.id;
-      document.getElementById('lat').value = marker.lat;
-      document.getElementById('lng').value = marker.lng;
-      document.getElementById('popupContent').value = marker.popupContent.split('<br')[0];
-      document.getElementById('audioUrl').value = marker.audioUrl || '';
-      document.getElementById('imageUrl').value = marker.imageUrl || '';
-      document.getElementById('tags').value = Array.isArray(marker.tags) ? marker.tags.join(', ') : '';
-      document.getElementById('date').value = marker.date;
-    })
-    .catch(error => console.log('Error al cargar el marcador para editar: ', error));
-};
-
-window.deleteMarker = function(id) {
-  fetch(`${BASE_URL}/${id}`, {
-    method: 'DELETE'
-  })
-    .then(() => fetchMarkers())
-    .catch(error => console.log('Error al eliminar el marcador: ', error));
-};
-
-// Cargar marcadores al inicio
-fetchMarkers();
-
-    const token = localStorage.getItem('token');
-    if (!token) {
-        window.location.href = 'login.html';
+          markerList.appendChild(table);
+        })
+        .catch(error => console.log('Error al cargar los marcadores:', error));
     }
 
-fetch('/ruta-protegida', {
-    headers: {
-        'Authorization': 'Bearer ' + localStorage.getItem('token')
-    }
-});
+    window.editMarker = function(id) {
+      fetch(`${BASE_URL}/${id}`)
+        .then(async response => {
+          if (!response.ok) throw new Error(await response.text());
+          return response.json();
+        })
+        .then(marker => {
+          document.getElementById('title').value = marker.title;
+          document.getElementById('markerId').value = marker.id;
+          document.getElementById('lat').value = marker.lat;
+          document.getElementById('lng').value = marker.lng;
+          document.getElementById('popupContent').value = marker.popupContent.split('<br')[0];
+          document.getElementById('audioUrl').value = marker.audioUrl || '';
+          document.getElementById('imageUrl').value = marker.imageUrl || '';
+          document.getElementById('tags').value = Array.isArray(marker.tags) ? marker.tags.join(', ') : '';
+          document.getElementById('date').value = marker.date;
+        })
+        .catch(error => console.log('Error al cargar el marcador para editar:', error));
+    };
 
+    window.deleteMarker = function(id) {
+      fetch(`${BASE_URL}/${id}`, { method: 'DELETE' })
+        .then(() => fetchMarkers())
+        .catch(error => console.log('Error al eliminar el marcador:', error));
+    };
 
+    // Cargar marcadores al inicio
+    fetchMarkers();
   </script>
 </body>
 </html>
