@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+ 
+<input type="password" id="password" placeholder="Contraseña">
+<button onclick="checkPassword()">Entrar</button>
+<p id="error"></p>
+
+<script>
+async function checkPassword() {
+    const password = document.getElementById('password').value;
+
+    try {
+        const response = await fetch('https://soundmap-r3ie.onrender.com/verify-password', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ password })
+        });
+
+        const text = await response.text();
+        console.log('Respuesta cruda:', text);
+
+        try {
+            const data = JSON.parse(text);
+
+            if (data.access === true) {
+                window.location.href = 'admin_panel.html';
+            } else {
+                document.getElementById('error').innerText = 'Contraseña incorrecta';
+            }
+
+        } catch (e) {
+            console.error('Error parseando JSON:', e);
+            document.getElementById('error').innerText = 'Respuesta del servidor no válida';
+        }
+
+    } catch (error) {
+        console.error('Error en la solicitud:', error);
+        document.getElementById('error').innerText = 'Error de red o servidor';
+    }
+}
+
+</script>
+
+</body>
+</html>
