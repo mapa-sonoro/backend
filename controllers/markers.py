@@ -100,3 +100,27 @@ def delete_marker(id):
         print(f"Error al eliminar marcador: {e}")
         return jsonify({'error': str(e)}), 500
 
+@markers_bp.route('/markers/<int:id>', methods=['GET'])
+def get_marker(id):
+    try:
+        conn = mysql.connector.connect(**DB_CONFIG)
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute("SELECT * FROM markers WHERE id = %s", (id,))
+        result = cursor.fetchone()
+        cursor.close()
+        conn.close()
+
+        if result:
+            # Convertir la columna 'tags' a lista
+            if 'tags' in result and result['tags']:
+                result['tags'] = result['tags'].split(',')
+            else:
+                result['tags'] = []
+
+            return jsonify(result)
+        else:
+            return jsonify({'error': 'Marcador no encontrado'}), 404
+    except Exception as e:
+        print(f"Error al obtener marcador {id}: {e}")
+        return jsonify({'error': str(e)}), 500
+
