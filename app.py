@@ -4,16 +4,12 @@ from controllers.markers import markers_bp
 from auth_simple import simple_auth_bp
 import os
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')  # 👈 esta sí, pero es la ÚNICA línea
 CORS(app)
 
+# registra los blueprints
 app.register_blueprint(markers_bp)
 app.register_blueprint(simple_auth_bp)
-
-if __name__ == '__main__':
-    app.run(debug=True)
-
-app = Flask(__name__, static_folder='static')
 
 @app.route('/')
 def serve_login():
@@ -22,3 +18,7 @@ def serve_login():
 @app.route('/admin_panel.html')
 def serve_admin_panel():
     return send_from_directory('static', 'admin_panel.html')
+
+# importante: esto al final
+if __name__ == '__main__':
+    app.run(debug=True)
