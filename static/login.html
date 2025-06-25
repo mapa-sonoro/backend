@@ -79,7 +79,7 @@ async function checkPassword() {
             const data = JSON.parse(text);
 
             if (data.access === true) {
-                window.location.href = 'admin_panel.html';
+                window.location.href = 'admin';
             } else {
                 document.getElementById('error').innerText = 'Contraseña incorrecta';
             }

@@ -7,7 +7,7 @@ import os
 app = Flask(__name__, static_folder='static')  # 👈 esta sí, pero es la ÚNICA línea
 CORS(app)
 
-app.secret_key = os.environ.get("SECRET_KEY", "clave-super-secreta")
+app.secret_key = os.environ.get("SECRET_KEY", "clave-super-secreta-clave-super")
 
 
 # registra los blueprints
