@@ -3,12 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+
+<style>
+
+        :root {
+          --dark: rgb(18, 18, 18);
+        }
+
+        body{
+            background-color: var(--dark);
+             /* display: flex;
+             gap: 2rem; */
+        }
+
+.container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: solid 0.05rem white;
+  color: white;
+  padding: 3rem 2rem 3rem 2rem;
+  font-family: 'Courier New', Courier, monospace;
+
+}
+
+.container input{
+    padding: 0.5rem;
+    border: solid 0.005rem, rgb(255, 255, 255);
+    background-color: var(--dark);
+    color: rgb(219, 19, 173);
+}
+     
+.container button{
+    padding: 0.5rem;
+    border: solid 0.005rem, rgb(255, 255, 255);
+    background-color: var(--dark);
+    color: rgb(255, 255, 255);
+}
+
+.container button:hover{
+    padding: 0.5rem;
+    border: solid 0.005rem,  rgb(219, 19, 173);
+    background-color: var(--dark);
+    color:  rgb(219, 19, 173);
+}
+
+</style>
+
+
 </head>
 <body>
- 
+<div class="container">
+    <p><b>Login</b></p>
 <input type="password" id="password" placeholder="Contraseña">
 <button onclick="checkPassword()">Entrar</button>
 <p id="error"></p>
+</div>
 
 <script>
 async function checkPassword() {

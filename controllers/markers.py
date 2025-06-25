@@ -40,7 +40,7 @@ def add_marker():
             data['title'], data['lat'], data['lng'], data['popupContent'],
             data['audioUrl'], data['imageUrl'],
             ','.join(data['tags']),
-            data.get('author', ''),  # Aquí autor opcional, '' si no viene
+            data.get('author', ''),  
             data['date']
         ))
         conn.commit()

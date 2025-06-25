@@ -3,7 +3,6 @@ from werkzeug.security import check_password_hash
 import os
 import bcrypt
 
-
 simple_auth_bp = Blueprint('simple_auth', __name__)
 
 stored_hash = b'$2b$12$zbq08OGuHEQe.mbmo.iknubfPLfjB0q/RSCX1hSIuDXJvPS.r0UZm'

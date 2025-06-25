@@ -10,275 +10,109 @@
   <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-  <style>
-:root {
-  --dark: rgb(18, 18, 18);
-  
-}
+<style>
+        :root {
+          --dark: rgb(18, 18, 18);
+        }
 
-body{
-    background-color: var(--dark);
+        body{
+            background-color: var(--dark);
 
-}
+        }
 
-.hd {
-  padding-left: 2rem;
-}
+        .hd {
+          padding-left: 2rem;
+        }
 
-h1 {
-    font-family: "Chakra Petch", 'Arial', sans-serif; 
-    font-size: 2rem;
-    color: rgb(255, 255, 255);
-    width: 13rem;
-    padding-inline: 0.5rem;
+        h1 {
+            font-family: "Chakra Petch", 'Arial', sans-serif; 
+            font-size: 2rem;
+            color: rgb(255, 255, 255);
+            width: 13rem;
+            padding-inline: 0.5rem;
 
-  }
+          }
 
-    h2{
-    font-family: "Chakra Petch", 'Arial', sans-serif; 
-    color: white;  
-  }
+            h2{
+            font-family: "Chakra Petch", 'Arial', sans-serif; 
+            color: white;  
+          }
 
-  .admin-panel {
-    color: white;
-    font-family: 'Courier New', Courier, monospace;
-    padding-left: 3rem;
-    padding-right: 3rem;
-    text-decoration: none;
-  }
+          .admin-panel {
+            color: white;
+            font-family: 'Courier New', Courier, monospace;
+            padding-left: 3rem;
+            padding-right: 3rem;
+            text-decoration: none;
+          }
 
-  .admin-panel form{
-    background-color: #e9e6e6;
-    color: var(--dark);
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    width: 30%;
-  }
+          .admin-panel form{
+            background-color: #e9e6e6;
+            color: var(--dark);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            width: 30%;
+          }
 
-  .admin-panel form input, .admin-panel form textarea{
-    background-color: white;
-    border: solid, 0.01rem, rgb(0, 0, 0);
-    padding: 0.3rem;
+          .admin-panel form input, .admin-panel form textarea{
+            background-color: white;
+            border: solid, 0.01rem, rgb(0, 0, 0);
+            padding: 0.3rem;
 
-  }
+          }
 
-  .form-buttons{
-    display: flex;
-    gap: 1rem;
-  }
+          .form-buttons{
+            display: flex;
+            gap: 1rem;
+          }
 
-  .items-admin{
-    display: flex;
-    gap: 2rem;
-  }
+          .items-admin{
+            display: flex;
+            gap: 2rem;
+          }
 
-  .admin-buttons{
-    display: flex;
-    height: 100%;
-    gap: 0.5rem;
-    align-items: center;
- 
-  }
+          .admin-buttons{
+            display: flex;
+            height: 100%;
+            gap: 0.5rem;
+            align-items: center;
+        
+          }
 
-  .subt {
-    font-family: 'Arial', sans-serif; 
-    font-size: 15px;
-    font-weight: bold;
-  }
+        .marker-table {
+          border-collapse: collapse;
+          margin-top: 1rem;
+          font-family: 'Courier New', Courier, monospace;
+        }
 
-  #map { 
-    height: 85vh; 
-    
- 
-  }
-  
-  #corner-image {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    margin: 10px;
-    width: 100px;
-    height: auto;
-    z-index: 1000;
-  }
+        .marker-table th,
+        .marker-table td {
+          padding: 0.5rem;
+          text-align: left;
+          font-size: 0.9rem;
+        }
 
-  #sidebar {
-    font-family: 'Arial', sans-serif;
-    position: fixed;
-    top: 0;
-    right: 0;
-    width: 310px;
-    height: 100%;
-    background: rgb(0, 0, 0);
-    box-shadow: -2px 0 5px rgba(0,0,0,0.5);
-    overflow-y: auto;
-    transition: right 0.3s;
-    z-index: 2000;
-    display: flex;
-    gap: 1rem;
-    color: white;
-    border: solid white 0.05rem;
-  }
+        .marker-table th {
+          background-color: rgb(204, 23, 192);
+          color: #000000;
+        } 
 
-  #sidebar.open { 
-    right: 0; 
-  }
+        .marker-table tr:nth-child(even) {
+          background-color: #e9e6e6;
+        }
 
-  #sidebar.close { 
-    font-family: 'Arial', sans-serif;
-    position: fixed;
-    top: 0;
-    right: -260px;
-    width: 310px;
-    height: 100%;
-    background: rgb(0, 0, 0);
-    box-shadow: -2px 0 5px rgba(0,0,0,0.5);
-    overflow-y: auto;
-    transition: right 0.3s;
-    z-index: 2000;
-    display: flex;
-    gap: 1rem;
-    color: white;
-    border: solid white 0.05rem;
-  }
+        .marker-table{
+          background-color: #d0cfcf;
+          color: #000000;
+        }
 
-  #toggleBtn {
-    position:fixed;
-    top: 50%;
-    /*right: 15px;*/
-    transform: translateY(-50%);
-    z-index: 1001;
-    font-size: 1.2rem;
-    cursor: pointer;
-    background-color: black;
-    color: rgb(255, 255, 255);
-    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-weight: 500;
-    border: solid white 0.05rem;  
-    /*padding-left:0.8rem;
-    padding-right: 0.8rem;
-    
-*/
-  }
-
-  #toggleBtn:hover{
-    border: solid red 0.05rem;
-  color:#d21122
-}
-
-  .lista{
-    padding-left: 3.2rem;
-  }
-
-  .filter-select {
-    width: 70%;
-    margin-bottom: 10px;
-    color: white;
-    background-color: black;
-  }
-
-  .marker-item {
-    font-weight: normal;
-    cursor: pointer;
-    transition: background-color 0.3s, color 0.3s;
-    margin-bottom: 5px;
-    border-bottom: 1px solid #ccc;
-    padding-bottom: 5px;
-    padding-left: 20px;
-    font-size: 12px;
-  }
-
-  .marker-item:hover {
-    background-color: #ffffff;
-    color: #d21122;
-  }
-
-
-  .audioP {
-    position: fixed;
-    bottom:0%;
-    left: 0%;
-    z-index: 1000;
-    background-color: rgb(16, 15, 15);
-    padding: 0.7rem;
-    padding-left: 3rem;
-    width: 100%;
-    height: 12%;
-  
-    
-  }
-
-  .audio-player{
-    display:flex;
-    align-items: center;
-    gap: 2rem;
-    font-family: 'Courier New', Courier, monospace;
-    color: white;
-  }
-  .audio-player button {
-    margin: 5px;
-    color: white;
-    background-color: black;
-    border: solid white 0.05rem ;
-    padding: 0.5rem;
- }
-
- .audio-player button:hover {
-  border: solid red 0.05rem;
-  color:#d21122
-
-}
-
-
-#audioPlayer{
-  background-color: rgb(241, 241, 241);
-  
-
-}
-.fa-solid fa-shuffle {
-  color:rgb(255, 255, 255);
-}
-
-.marker-table {
-  border-collapse: collapse;
-  margin-top: 1rem;
-  font-family: 'Courier New', Courier, monospace;
-}
-
-/* .marker-table td{
-   border: 1px solid #000000;  
-
-} */
-
-
-.marker-table th,
-.marker-table td {
-  padding: 0.5rem;
-  text-align: left;
-  font-size: 0.9rem;
-}
-
- .marker-table th {
-  background-color: rgb(204, 23, 192);
-  color: #000000;
-} 
-
-.marker-table tr:nth-child(even) {
-  background-color: #e9e6e6;
-}
-
-.marker-table{
-  background-color: #d0cfcf;
-  color: #000000;
-}
-
-.marker-table button {
-  /* margin: 0 4px;
-  padding: 4px 8px;
-  font-size: 0.9rem; */
-  cursor: pointer;
-}
+        .marker-table button {
+          /* margin: 0 4px;
+          padding: 4px 8px;
+          font-size: 0.9rem; */
+          cursor: pointer;
+        }
 
 
   </style>
