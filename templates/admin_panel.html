@@ -24,6 +24,11 @@
           padding-left: 2rem;
         }
 
+        header{
+          display: flex;
+          justify-content: space-between;
+        }
+
         h1 {
             font-family: "Chakra Petch", 'Arial', sans-serif; 
             font-size: 2rem;
@@ -114,11 +119,15 @@
           cursor: pointer;
         }
 
+        .logout{
+          color: white;
+        }
 
   </style>
 </head>
 <body class="admin-panel">
-  <h2>Añadir o modificar un marcador</h2>
+ <header><h2>Añadir o modificar un marcador</h2>
+ <a class="logout"  href="https://soundmap-r3ie.onrender.com/login">Log out</a> </header> 
   <form id="markerForm">
     <input type="hidden" id="markerId" name="markerId" />
     <label for="title">Título:</label>
