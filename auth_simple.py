@@ -1,4 +1,4 @@
-from flask import Blueprint, request, jsonify
+from flask import Blueprint, request, jsonify, session
 from werkzeug.security import check_password_hash
 import os
 import bcrypt
@@ -11,13 +11,13 @@ stored_hash = b'$2b$12$zbq08OGuHEQe.mbmo.iknubfPLfjB0q/RSCX1hSIuDXJvPS.r0UZm'
 def _password():
     try:
         data = request.get_json()
-        print("Datos recibidos:", data)
-
         password = data.get('password')
+
         if not password:
             return jsonify({"error": "No se proporcionó contraseña"}), 400
 
         if bcrypt.checkpw(password.encode('utf-8'), stored_hash):
+            session['logged_in'] = True
             return jsonify({"access": True}), 200
         else:
             return jsonify({"access": False}), 200
